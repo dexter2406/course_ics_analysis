@@ -1,4 +1,4 @@
-# cal_filter
+# course_ics_analysis
 
 A command-line tool for students to make sense of their university ICS calendar export.
 
