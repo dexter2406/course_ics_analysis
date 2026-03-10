@@ -315,21 +315,23 @@ def build_course_map(
         summary = props.get("SUMMARY", "").strip()
         if not summary:
             continue
-        if from_date is not None:
-            event_date = parse_event_date(props.get("DTSTART", ""))
-            if event_date is None or event_date < from_date:
-                continue
-        if not matches_course_filter(summary, course_keywords):
-            continue
-        if matches_exclude(summary, exclude_keywords or []):
-            continue
 
         event_date = parse_event_date(props.get("DTSTART", ""))
+        if from_date is not None and (event_date is None or event_date < from_date):
+            continue
         if event_date is None:
             continue
 
+        # Determine course code first so we can scope course_keywords correctly
         norm = normalize_course_name(summary)
         code = extract_course_code(norm) or "OTHER"
+
+        # course_keywords only filters DBE-coded events; OTHER events always pass
+        if code != "OTHER" and not matches_course_filter(summary, course_keywords):
+            continue
+        # exclude_keywords applies globally to all events
+        if matches_exclude(summary, exclude_keywords or []):
+            continue
         if code == "OTHER":
             title = "OTHER"
             key   = "OTHER"
@@ -561,7 +563,9 @@ def main() -> None:
             skipped_old += 1
             continue
 
-        if not matches_course_filter(summary, course_keywords):
+        # course_keywords only filters DBE-coded events; OTHER events always pass
+        event_code = extract_course_code(normalize_course_name(summary)) or "OTHER"
+        if event_code != "OTHER" and not matches_course_filter(summary, course_keywords):
             skipped_filter += 1
             continue
 

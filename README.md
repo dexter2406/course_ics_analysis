@@ -102,7 +102,8 @@ semester = "ss26"
 from_date = "2026-03-10"
 
 # Course keyword filter (case-insensitive, matched against SUMMARY)
-# Leave empty to include all courses
+# Only applies to DBE-coded events — non-course events (holidays etc.) always pass.
+# Leave empty to include all courses.
 # e.g. course_keywords = ["DBE11", "DBE12", "Entrepreneurship"]
 course_keywords = []
 
@@ -114,8 +115,7 @@ exam_keywords = [
     "presentation",
 ]
 
-# Events whose SUMMARY matches any of these are excluded entirely
-# (higher priority than course_keywords)
+# Events whose SUMMARY matches any of these are excluded entirely (global).
 # e.g. exclude_keywords = ["Projekttag", "Feiertag"]
 exclude_keywords = ["Prüfungszeitraum", "Vorlesungsfreie Zeit", "Gruppe A", "Gruppe B"]
 
@@ -129,8 +129,8 @@ out_dir = ""
 ```
 Raw events
   → Date filter        (>= from_date)
-  → Course filter      (course_keywords; empty = all pass)
-  → Exclude filter     (exclude_keywords; match = skip)
+  → Course filter      (course_keywords; DBE-coded events only — holidays always pass)
+  → Exclude filter     (exclude_keywords; applies to all events)
   → Classification     (exam_keywords match → Exam file, else → Vorlesung file)
 ```
 
@@ -146,7 +146,6 @@ cal_analysis/
 ├── ss26_vorlesung.ics  # Generated: lecture events
 ├── ss26_exam.ics       # Generated: exam events
 ├── ss26_briefing.md    # Generated: course briefing (--list-courses --save)
-└── archive/            # Old scripts and data
 ```
 
 Output filenames are determined by the `semester` field in `cal_config.toml`.
