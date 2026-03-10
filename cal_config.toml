@@ -1,0 +1,27 @@
+# Semester label used as the prefix for all output filenames.
+# e.g. "ss26" → ss26_vorlesung.ics, ss26_exam.ics, ss26_briefing.md
+# Leave empty to use the default name "target_semester".
+semester = "ss26"
+
+from_date = "2026-03-10"
+
+# Leave empty to include all courses.
+# Add keywords (case-insensitive, matched against SUMMARY) to filter:
+# e.g. course_keywords = ["DBE11", "DBE12", "Entrepreneurship"]
+course_keywords = ["Cloud-based Web Application Development", "DBE23: Service Engineering"]
+
+exam_keywords = [
+    "prüfung",
+    "prüfungsleistung",
+    "exam",
+    "presentation",
+]
+
+# Events whose SUMMARY matches any of these keywords will be excluded entirely
+# (applied after course_keywords filter, case-insensitive).
+# e.g. exclude_keywords = ["Prüfungszeitraum"]
+exclude_keywords = ["Prüfungszeitraum", "Vorlesungsfreie Zeit", "Gruppe A", "Gruppe B"]
+
+# Output directory for generated ICS files.
+# Leave empty to write next to the input file.
+out_dir = ""
